@@ -14,7 +14,7 @@ import { RouterModule } from '@angular/router';
             <h1 class="hero-title">Bridging Innovation <span>Between Global Capability Centers and Deep Tech Startups</span></h1>
             <p class="hero-subtitle">Connect, collaborate, and transform your business with cutting-edge technology solutions</p>
             <div class="hero-cta">
-              <a routerLink="/auth/register" class="btn btn-primary">Get Started</a>
+              <a routerLink="/auth/login" class="btn btn-primary">Get Started</a>
               <a href="#how-it-works" class="btn btn-secondary">Learn More</a>
             </div>
           </div>
@@ -64,7 +64,7 @@ import { RouterModule } from '@angular/router';
                 <li>Leverage AI-powered matching to find the perfect fit</li>
                 <li>Streamline your innovation sourcing process</li>
               </ul>
-              <a routerLink="/auth/register" class="btn btn-primary">Join as a GCC</a>
+              <a routerLink="/auth/register/gcc" class="btn btn-primary">Join as a GCC</a>
             </div>
             <div class="section-image">
               <img src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Global Capability Center" />
@@ -85,7 +85,7 @@ import { RouterModule } from '@angular/router';
                 <li>Get discovered through AI-powered matching</li>
                 <li>Scale your business with enterprise clients</li>
               </ul>
-              <a routerLink="/auth/register" class="btn btn-primary">Join as a Startup</a>
+              <a routerLink="/auth/register/startup" class="btn btn-primary">Join as a Startup</a>
             </div>
             <div class="section-image">
               <img src="https://images.pexels.com/photos/8353790/pexels-photo-8353790.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Deep Tech Startup" />
@@ -121,7 +121,10 @@ import { RouterModule } from '@angular/router';
         <div class="container">
           <h2>Ready to transform your business?</h2>
           <p>Join our platform today and connect with the right partners for your innovation journey.</p>
-          <a routerLink="/auth/register" class="btn btn-primary">Get Started</a>
+          <div class="cta-buttons">
+            <a routerLink="/auth/register/gcc" class="btn btn-primary">Join as a GCC</a>
+            <a routerLink="/auth/register/startup" class="btn btn-secondary">Join as a Startup</a>
+          </div>
         </div>
       </section>
     </div>
@@ -391,6 +394,12 @@ import { RouterModule } from '@angular/router';
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: var(--space-4);
+      justify-content: center;
     }
   `]
 })
