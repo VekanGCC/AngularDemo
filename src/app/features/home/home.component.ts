@@ -12,10 +12,10 @@ import { RouterModule } from '@angular/router';
         <div class="container">
           <div class="hero-content">
             <h1 class="hero-title">Bridging Innovation <span>Between Global Capability Centers and Deep Tech Startups</span></h1>
-            <p class="hero-subtitle">Connect, collaborate, and transform your business with cutting-edge technology solutions</p>
+            <p class="hero-subtitle">Connect, collaborate, and transform your business with deep tech</p>
             <div class="hero-cta">
-              <a routerLink="/auth/login" class="btn btn-primary">Get Started</a>
-              <a href="#how-it-works" class="btn btn-secondary">Learn More</a>
+              <a routerLink="/auth/register/gcc" class="btn btn-primary">Join as GCC</a>
+              <a routerLink="/auth/register/startup" class="btn btn-primary">Join as Startup</a>
             </div>
           </div>
           <div class="hero-image">
@@ -122,8 +122,8 @@ import { RouterModule } from '@angular/router';
           <h2>Ready to transform your business?</h2>
           <p>Join our platform today and connect with the right partners for your innovation journey.</p>
           <div class="cta-buttons">
-            <a routerLink="/auth/register/gcc" class="btn btn-primary">Join as a GCC</a>
-            <a routerLink="/auth/register/startup" class="btn btn-secondary">Join as a Startup</a>
+            <a routerLink="/auth/register/gcc" class="btn btn-primary">Join as GCC</a>
+            <a routerLink="/auth/register/startup" class="btn btn-primary">Join as Startup</a>
           </div>
         </div>
       </section>

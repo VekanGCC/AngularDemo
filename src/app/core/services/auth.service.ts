@@ -1,14 +1,9 @@
 import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { tap, map } from 'rxjs/operators';
 import { User, UserRole, ApprovalStatus } from '../models/user.model';
-
-interface AuthResponse {
-  user: User;
-  token: string;
-}
+import { CommonService } from './common.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +17,8 @@ export class AuthService {
   public isLoggedIn = signal<boolean>(false);
 
   constructor(
-    private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private commonService: CommonService
   ) {}
 
   initAuth(): void {
@@ -42,11 +37,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<User> {
-    // In a real app, this would call an API endpoint
-    return this.simulateApiCall<AuthResponse>({ 
-      email, 
-      password 
-    }).pipe(
+    return this.commonService.login(email, password).pipe(
       tap(response => {
         if (response.user.approvalStatus !== ApprovalStatus.APPROVED) {
           this.setAuthState(response.user, response.token);
@@ -62,8 +53,7 @@ export class AuthService {
   }
   
   register(userData: Partial<User>): Observable<User> {
-    // In a real app, this would call an API endpoint
-    return this.simulateApiCall<AuthResponse>(userData).pipe(
+    return this.commonService.register(userData).pipe(
       tap(response => {
         this.setAuthState(response.user, response.token);
         this.router.navigate(['/auth/pending-approval']);
@@ -127,81 +117,5 @@ export class AuthService {
       default:
         this.router.navigate(['/']);
     }
-  }
-  
-  // Mock API for demo purposes - this simulates backend responses
-  private simulateApiCall<T>(data: any): Observable<T> {
-    // In a real app, this would be replaced with actual HTTP calls
-    if (data.email === 'admin@example.com') {
-      return of({
-        user: {
-          id: '1',
-          email: 'admin@example.com',
-          name: 'Admin User',
-          role: UserRole.ADMIN,
-          approvalStatus: ApprovalStatus.APPROVED,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        token: 'mock-jwt-token-admin'
-      } as T);
-    } else if (data.email === 'gcc@example.com') {
-      return of({
-        user: {
-          id: '2',
-          email: 'gcc@example.com',
-          name: 'GCC User',
-          role: UserRole.GCC,
-          approvalStatus: ApprovalStatus.APPROVED,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        token: 'mock-jwt-token-gcc'
-      } as T);
-    } else if (data.email === 'startup@example.com') {
-      return of({
-        user: {
-          id: '3',
-          email: 'startup@example.com',
-          name: 'Startup User',
-          role: UserRole.STARTUP,
-          approvalStatus: ApprovalStatus.APPROVED,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        token: 'mock-jwt-token-startup'
-      } as T);
-    } else if (data.email === 'pending@example.com') {
-      return of({
-        user: {
-          id: '4',
-          email: 'pending@example.com',
-          name: 'Pending User',
-          role: data.role || UserRole.STARTUP,
-          approvalStatus: ApprovalStatus.PENDING,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        token: 'mock-jwt-token-pending'
-      } as T);
-    }
-    
-    // For new registrations
-    if (data.role) {
-      return of({
-        user: {
-          id: Math.random().toString(36).substring(2, 9),
-          email: data.email,
-          name: data.name,
-          role: data.role,
-          approvalStatus: ApprovalStatus.PENDING,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        token: 'mock-jwt-token-new-user'
-      } as T);
-    }
-    
-    return throwError(() => new Error('Invalid credentials'));
   }
 }
